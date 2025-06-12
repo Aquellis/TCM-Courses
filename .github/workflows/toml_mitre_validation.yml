@@ -18,9 +18,6 @@ jobs:
       #     python-version: '3.X.X'
 
       # Run the TOML validation and MITRE scripts
-      - name: Run Validation
-        id: run_validation
-        run: |
-          python DetEng/toml_validator.py
-          python DetEng/create_mitre.py
+      - run: python DetEng/toml_validator.py
+      - run: python DetEng/create_mitre.py
       - run: echo "Job status - ${{ job.status }}."
