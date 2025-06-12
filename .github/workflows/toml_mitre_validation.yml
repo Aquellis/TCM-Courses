@@ -16,7 +16,9 @@ jobs:
       # - uses: actions/setup-python@v4
       #   with:
       #     python-version: '3.X.X'
-
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
       # Run the TOML validation and MITRE scripts
       - run: python DetEng/toml_validator.py
       - run: python DetEng/create_mitre.py
