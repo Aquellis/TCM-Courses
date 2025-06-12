@@ -1,0 +1,21 @@
+name: Test workflow
+run-name: test
+
+# The workflow must be manually triggered
+on: 
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      #
+      # In case of error, force the python version used to run 
+      # validation checks:
+      # - uses: actions/setup-python@v4
+      #   with:
+      #     python-version: '3.X.X'
+
+      # Run the TOML validation and MITRE scripts
+      - run: python test.py
