@@ -21,10 +21,6 @@ jobs:
       - name: Run Validation
         id: run_validation
         run: |
-          python3 DetEng/toml_validator.py >> $GITHUB_OUTPUT
+          python3 DetEng/toml_validator.py
           python3 DetEng/create_mitre.py
-      # Access and print the output of the TOML validator script to ensure it ran correctly
-      - name: Read Output
-        id: read_output
-        run: echo ${{ steps.run_validation.outputs }}
       - run: echo "Job status - ${{ job.status }}."
