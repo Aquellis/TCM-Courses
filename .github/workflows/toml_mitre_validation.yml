@@ -1,0 +1,18 @@
+name: TOML and MITRE Validation
+run-name: Validating TOML files
+
+# The workflow must be manually triggered
+on: 
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: List files in the repository
+        # Run the TOML validation and MITRE scripts
+        run: |
+          python /DetEng/toml_validator.py
+          python /DetEng/create_mitre.py
+      - run: echo "🍏 This job's status is ${{ job.status }}."
