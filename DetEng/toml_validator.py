@@ -15,6 +15,7 @@ for root, dirs, files in os.walk("custom_detections/"):
     # For every file found, check if it has the .toml extension
     # If it is a toml file, load its contents
     for file in files:
+        print(file)
         if file.endswith(".toml"):
     
             # Programmatically create the full file path for the TOML files
