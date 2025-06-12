@@ -9,7 +9,7 @@ severity = ""
 tags = [
     "Domain: Endpoint"
 ]
-type = "eql"
+type = "query"
 # if the rule type is threshold, we need to include a threshold field
 # threshold = [value]
 
