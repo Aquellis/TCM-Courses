@@ -2,11 +2,12 @@ name: TOML and MITRE Validation
 run-name: Validating TOML files
 
 # The workflow must be manually triggered
-on: 
+on:
+  push:
   workflow_dispatch:
 
 jobs:
-  build:
+  toml-validation-job:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
