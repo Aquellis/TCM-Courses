@@ -1,1 +1,6 @@
 autoWebRecon/
+DetEng/detection-rules/
+DetEng/taplo.exe
+DetEng/alert_example.toml
+DetEng/required_fields.toml
+DetEng/custom-rules

@@ -1,0 +1,30 @@
+[rule]
+author = ["KC"]
+rule_id = "10000000-4000-400a-b200-4a285d000006"
+description = "Alert triggers on a string of text that matches msfvenom reverse shell payload"
+from = "now-6m" #From changes the default lookback time, 6m is default
+name = "Potential MSF PowerShell Payload Observed"
+risk_score = 100
+severity = "low"
+type = "query"
+
+query = '''
+event.dataset: "windows.sysmon_operational" and process.command_line : "\"cmd.exe\"" and message: "*powershell -w hidden -nop -c $a'*"
+'''
+note = ""
+
+[[rule.threat]]
+framework = "MITRE ATT&CK"
+[[rule.threat.technique]]
+id = "T1059"
+name = "Command and Scripting Interpreter"
+reference = "https://attack.mitre.org/techniques/T1059/"
+[[rule.threat.technique.subtechnique]]
+id = "T1059.001"
+name = "PowerShell"
+reference = "https://attack.mitre.org/techniques/T1059/001/"
+
+[rule.threat.tactic]
+id = "TA0002"
+name = "Execution"
+reference = "https://attack.mitre.org/tactics/TA0002/"

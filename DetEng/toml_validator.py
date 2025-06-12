@@ -5,9 +5,12 @@ import tomllib
 import sys
 import os
 
+# Create a variable to track whether the assoicated GitHub action is passed or failed
+failure = 0
+
 # Search in the root directory provided, any/all subsdirectories within it and 
 # the files found in those directories (double \\ needed in the path)
-for root, dirs, files in os.walk("C:\\Users\\vboxuser\\Desktop\\TCM-Courses\\DetEng\\converted_detections"):
+for root, dirs, files in os.walk("custom_detections/"):
 
     # For every file found, check if it has the .toml extension
     # If it is a toml file, load its contents
@@ -56,5 +59,14 @@ for root, dirs, files in os.walk("C:\\Users\\vboxuser\\Desktop\\TCM-Courses\\Det
             # Otherwise print that the file is valid
             if missing_fields:
                 print("The following fields must be added to " + file + ": \n" + str(missing_fields))
+               
+                # If the file fails the validation check, set the failure variable to 1 so
+                # the GitHub action knows the validation check failed
+                failure = 1
             else:
                 print(file + " is valid.")
+
+# If the validation check has failed, exit the script with an exit code of 1
+# (the script exited because of an error)
+if failure != 0:
+    sys.exit(1)
