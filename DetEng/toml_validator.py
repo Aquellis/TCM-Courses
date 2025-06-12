@@ -54,6 +54,7 @@ for root, dirs, files in os.walk("custom_detections/"):
             for field in required_fields:
                 if field not in present_fields:
                     missing_fields.append(field)
+                    failure = 1
 
             # If any required fields were NOT found in the TOML file, list them
             # Otherwise print that the file is valid
@@ -69,4 +70,5 @@ for root, dirs, files in os.walk("custom_detections/"):
 # If the validation check has failed, exit the script with an exit code of 1
 # (the script exited because of an error)
 if failure != 0:
+    print("Exiting script on error.")
     sys.exit(1)
