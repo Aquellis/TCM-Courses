@@ -4,7 +4,7 @@ rule_id = "10000000-4000-400a-b200-4a285d000010"
 description = "Alerts on web scanning activity when the useragent string includes Nmap or Nikto"
 from = "now-5m" #From changes the default lookback time, 6m is default
 name = "Web Scanner Activity - Nmap & Nikto"
-risk_score = 21
+risk_score = 35
 severity = "low"
 
 type = "query"
