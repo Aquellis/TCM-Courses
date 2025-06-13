@@ -12,7 +12,7 @@ def list_files_in_nested_directories():
     try:
         # Search in the root directory provided, any/all subsdirectories within it and 
         # the files found in those directories 
-        for root, dirs, files in os.walk('custom_detections'):
+        for root, dirs, files in os.walk('/custom_detections'):
             for file in files:
                 
                 # For every file found, check if it has the .toml extension
