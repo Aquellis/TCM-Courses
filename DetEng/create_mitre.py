@@ -75,7 +75,7 @@ mitreObject = {}
 
 # Search in the root directory provided, any/all subsdirectories within it and 
 # the files found in those directories (double \\ needed in the path)
-for root, dirs, files in os.walk("custom_detections/"):
+for root, dirs, files in os.walk('DetEng/custom_detections'):
 
     # For every file found, check if it has the .toml extension
     # If it is a toml file, load its content
