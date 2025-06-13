@@ -4,7 +4,7 @@ rule_id = "10000000-4000-400a-b200-4a285d000009"
 description = "Alerts when .ps1 files are added to autorun on bootup locations in the Registry"
 from = "now-5m" #From changes the default lookback time, 6m is default
 name = "Suspicious PowerShell Added to Windows Registry"
-risk_score = 21
+risk_score = 30
 severity = "low"
 type = "query"
 
