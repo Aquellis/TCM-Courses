@@ -1,18 +1,16 @@
-name: TOML and MITRE Validation
-run-name: Validating TOML files
+name: Send All Detections to Elastic
+run-name: All Detections to Elastic
 
-# The workflow can be manually triggered
-# Also triggers on every push to main including a TOML file
+# The workflow must be manually triggered
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - '**.toml'
   workflow_dispatch:
 
 jobs:
-  toml-validation-job:
+  send-detections:
     runs-on: ubuntu-latest
+    # Create our environment variable (stores Elastic API key)
+    env:
+      ELASTIC_API: ${{ secrets.ELASTIC_API }}
     steps:
       - uses: actions/checkout@v4
       #
@@ -25,7 +23,6 @@ jobs:
         with:
           python-version: '3.13'
       - run: pip install requests
-      # Run the TOML validation and MITRE scripts
-      - run: python DetEng/toml_validator.py
-      - run: python DetEng/create_mitre.py
+      # Run the TOML to JSON validation script
+      - run: python DetEng/toml_to_json.py
       - run: echo "Job status - ${{ job.status }}."
