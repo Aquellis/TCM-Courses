@@ -1,0 +1,44 @@
+name: Send All Detection Updates to Elastic
+run-name: Send Updates to to Elastic
+
+# The workflow can be manually triggered 
+# Also triggers on every push to main including a TOML file
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - DetEng/detections/'**.toml'
+  workflow_dispatch:
+
+jobs:
+  elastic-detections-update:
+    runs-on: ubuntu-latest
+    env:
+      ELASTIC_API: ${{ secrets.ELASTIC_API }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+      #
+      # In case of error, force the python version used to run 
+      # validation checks:
+      # - uses: actions/setup-python@v4
+      #   with:
+      #     python-version: '3.X.X'
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11.4'
+      
+      # Use Marketplace action Changed Files
+      - name: Get Changed Files
+        id: changed-files
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c
+
+      - name: Run Update Script
+        env:
+          ELASTIC_KEY: ${{ secrets.ELASTIC_API }}
+          # This variable is defined in the Marketplace page for Changed Files
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          pip install requests
+          python DetEng/elastic_api/update_alert.py
