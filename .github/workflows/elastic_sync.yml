@@ -7,7 +7,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - DetEng/detections/'**.toml'
+      - DetEng/custom_detections/'**.toml'
   workflow_dispatch:
 
 jobs:
