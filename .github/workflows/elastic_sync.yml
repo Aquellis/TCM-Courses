@@ -42,7 +42,9 @@ jobs:
           CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         working-directory: ./DetEng/elastic_api
         run: |
+          for file in ${CHANGED_FILES}; do
+            echo "$file was changed"
+          done
           pip install requests
-          echo "Changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
           python update_alert.py
           echo "Job status - ${{ job.status }}."
