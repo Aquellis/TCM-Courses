@@ -6,8 +6,10 @@ import os
 import tomllib
 
 API_KEY = os.getenv('ELASTIC_API')
-CHANGED_FILES = str(os.getenv('CHANGED_FILES'))
-print(CHANGED_FILES)
+CHANGED_FILES = os.getenv('CHANGED_FILES')
+
+changed_files = str(CHANGED_FILES)
+print(changed_files)
 
 # Example request
 # curl \
@@ -36,7 +38,7 @@ for root, dirs, files in os.walk('DetEng/custom_detections'):
 
         # Add an extra step: Check if the file is listed in CHANGED_FILES
         # If it is, proceed to validate it and push to Elastic
-        if file in CHANGED_FILES:
+        if file in changed_files:
             print(file)
 
             # Create a data variable to store the JSON conversion. Initialize it with the beginning {
