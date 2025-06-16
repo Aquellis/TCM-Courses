@@ -37,10 +37,10 @@ for root, dirs, files in os.walk('DetEng/custom_detections'):
     # For every file found, check if it has the .toml extension
     # If it is a toml file, load its contents
     for file in files:
-
+        print("Attempting file search")
         # Add an extra step: Check if the file is listed in CHANGED_FILES
         # If it is, proceed to validate it and push to Elastic
-        if changed_files.find(file):
+        if file in changed_files:
             print(file)
 
             # Create a data variable to store the JSON conversion. Initialize it with the beginning {
