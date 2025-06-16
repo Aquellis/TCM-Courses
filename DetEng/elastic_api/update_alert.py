@@ -5,7 +5,7 @@ import tomllib
 print("running the update script")
 
 url = "https://detectionengineering101.kb.us-central1.gcp.cloud.es.io:9243/api/detection_engine/rules"
-api_key = os.environ['ELASTIC_KEY']
+api_key = os.environ['ELASTIC_API']
 
 headers = {
     'Content-Type': 'application/json;charset=UTF-8',
@@ -14,13 +14,15 @@ headers = {
 }
 
 changed_files = os.environ["CHANGED_FILES"]
-print(changed_files)
+print("changed files are" + changed_files)
 
 data = ""
-for root, dirs, files in os.walk('DetEng/custom_detections'):
+for root, dirs, files in os.walk("DetEng/custom_detections"):
+    print("attempting file search")
     for file in files:
         print(file)
         if file in changed_files:
+            print("file found")
             data = "{\n"
             if file.endswith(".toml"):
                 full_path = os.path.join(root, file)
