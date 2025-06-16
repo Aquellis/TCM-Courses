@@ -14,10 +14,12 @@ headers = {
 }
 
 changed_files = os.environ["CHANGED_FILES"]
+print(changed_files)
 
 data = ""
 for root, dirs, files in os.walk('DetEng/custom_detections'):
     for file in files:
+        print(file)
         if file in changed_files:
             data = "{\n"
             if file.endswith(".toml"):
