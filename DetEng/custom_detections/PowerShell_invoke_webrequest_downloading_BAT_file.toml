@@ -4,7 +4,7 @@ rule_id = "10000000-4000-400a-b200-4a285d000008"
 description = "Powershell downloaded a BAT file via Invoke-WebRequest"
 from = "now-6m" #From changes the default lookback time, 6m is default
 name = "PowerShell Invoke-WebRequest Downloading a BAT File"
-risk_score = 1
+risk_score = 10
 severity = "low"
 type = "query"
 
