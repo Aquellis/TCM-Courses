@@ -43,5 +43,6 @@ jobs:
         working-directory: ./DetEng/elastic_api
         run: |
           pip install requests
+          echo "Changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
           python update_alert.py
           echo "Job status - ${{ job.status }}."
