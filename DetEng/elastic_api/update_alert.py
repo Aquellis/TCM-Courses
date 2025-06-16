@@ -115,6 +115,8 @@ for root, dirs, files in os.walk('DetEng/custom_detections'):
             ruleID = alert['rule']['rule_id']
             updateUrl = url + "?rule_id=" + ruleID
 
+            print(elastic_data)
+
             # Send the PUT request to Elastic
             elastic_data = requests.put(updateUrl, headers=headers, data=data).json()
 
