@@ -113,7 +113,16 @@ for root, dirs, files in os.walk('DetEng/custom_detections'):
             # Extract the rule IDs from each alert in the list and append that value to the URL 
             # before submitting the PUT request to Elastic
             ruleID = alert['rule']['rule_id']
-            url = url + "?rule_id=" + ruleID
+            updateUrl = url + "?rule_id=" + ruleID
 
             # Send the PUT request to Elastic
-            elastic_data = requests.put(url, headers=headers, data=data).json()
+            elastic_data = requests.put(updateUrl, headers=headers, data=data).json()
+
+            # If a new TOML file is being sent to Elastic, the Rule ID doesn't exist.
+            # Check for a 404 error code in the JSON data and search if a status code is included
+            # If a 404 status code is found, change to a POST request rather than a PUT
+            for key in elastic_data:
+                if key == "status_code":
+                    if 404 == elastic_data["status_code"]:
+                        elastic_data = requests.post(url, headers=headers, data=data).json()
+                        print(elastic_data)
