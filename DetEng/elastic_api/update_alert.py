@@ -6,8 +6,7 @@ import os
 import tomllib
 
 API_KEY = os.getenv('ELASTIC_API')
-CHANGED_FILES = os.getenv('CHANGED_FILES')
-print(CHANGED_FILES)
+CHANGED_FILES = str(os.getenv('CHANGED_FILES'))
 
 # Example request
 # curl \
@@ -37,6 +36,7 @@ for root, dirs, files in os.walk('DetEng/custom_detections'):
         # Add an extra step: Check if the file is listed in CHANGED_FILES
         # If it is, proceed to validate it and push to Elastic
         if file in CHANGED_FILES:
+            print(file)
 
             # Create a data variable to store the JSON conversion. Initialize it with the beginning {
             data = "{\n"
@@ -116,10 +116,9 @@ for root, dirs, files in os.walk('DetEng/custom_detections'):
             ruleID = alert['rule']['rule_id']
             updateUrl = url + "?rule_id=" + ruleID
 
-            print(elastic_data)
-
             # Send the PUT request to Elastic
             elastic_data = requests.put(updateUrl, headers=headers, data=data).json()
+            print(elastic_data)
 
             # If a new TOML file is being sent to Elastic, the Rule ID doesn't exist.
             # Check for a 404 error code in the JSON data and search if a status code is included

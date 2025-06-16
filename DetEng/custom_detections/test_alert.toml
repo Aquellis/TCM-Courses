@@ -1,43 +1,30 @@
 [rule]
 author = ["KC"]
-rule_id = "10000000-4000-400a-b200-4a285d000015"
-description = ""
-from = "now-6m" #From changes the default lookback time, 6m is default
-name = "New Test Alert"
-risk_score = 10
+rule_id = "10000000-4000-400a-b200-4a285d000250"
+description = "Example alert"
+from = "now-5m" #From changes the default lookback time, 6m is default
+name = "Test Alert"
+risk_score = 2
 severity = "low"
-tags = [
-    "Domain: Endpoint"
-]
 type = "query"
-# if the rule type is threshold, we need to include a threshold field
-# threshold = [value]
 
 query = '''
+event.dataset: "windows.sysmon_operational"
 '''
 note = ""
 
 [[rule.threat]] # Example of assigning TTPs
 framework = "MITRE ATT&CK"
 [[rule.threat.technique]]
-id = "T1114"
-name = "Email Collection"
-reference = "https://attack.mitre.org/techniques/T1114/"
+id = "T1547"
+name = "Boot or Logon Autostart Execution"
+reference = "https://attack.mitre.org/techniques/T1547/"
 [[rule.threat.technique.subtechnique]]
-id = "T1114.001"
-name = "Local Email Collection"
-reference = "https://attack.mitre.org/techniques/T1114/001/"
+id = "T1547.001"
+name = "Registry Run Keys / Startup Folder"
+reference = "https://attack.mitre.org/techniques/T1547/001/"
 
 [rule.threat.tactic]
-id = "TA0009"
-name = "Collection"
-reference = "https://attack.mitre.org/tactics/TA0009/"
-
-# Optional fields:
-# throttle: 7d
-# version: 1
-# interval: 5m
-
-# [rule.threshold]
-# field = ["host.hostname"]
-# value = 100
+id = "TA0003"
+name = "Persistence"
+reference = "https://attack.mitre.org/tactics/TA0003/"
