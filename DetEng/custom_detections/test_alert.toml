@@ -4,7 +4,7 @@ rule_id = "10000000-4000-400a-b200-4a285d000250"
 description = "Example alert"
 from = "now-5m" #From changes the default lookback time, 6m is default
 name = "Test Alert"
-risk_score = 1
+risk_score = 2
 severity = "low"
 type = "query"
 
