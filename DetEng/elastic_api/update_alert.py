@@ -6,6 +6,8 @@ import os
 import tomllib
 
 API_KEY = os.getenv('ELASTIC_API')
+CHANGED_FILES = os.getenv('CHANGED_FILES')
+print(CHANGED_FILES)
 
 # Example request
 # curl \
@@ -31,94 +33,95 @@ for root, dirs, files in os.walk('DetEng/custom_detections'):
     # For every file found, check if it has the .toml extension
     # If it is a toml file, load its contents
     for file in files:
-  
-        # Create a data variable to store the JSON conversion. Initialize it with the beginning {
-        data = "{\n"
 
-        if file.endswith(".toml"):
-    
-            # Programmatically create the full file path for the TOML files
-            # by joining the directory and filename together 
-            full_path = os.path.join(root, file)
-            with open(full_path, "rb") as loadedToml:
-                alert = tomllib.load(loadedToml)
+        if file in CHANGED_FILES:
+            # Create a data variable to store the JSON conversion. Initialize it with the beginning {
+            data = "{\n"
 
-            # Create an array containing the required fields for an alert based on the alert type
-            # Alert types = query, eql (evert correlation), threshold
-            if alert['rule']['type'] == "query":
-                required_fields = ['author', 'description', 'name', 'rule_id', 'risk_score', 'severity', 'type', 'query']
-            elif alert['rule']['type']  == "eql":
-                required_fields = ['author', 'description', 'name', 'rule_id', 'risk_score', 'severity', 'type', 'query', 'language']
-            elif alert['rule']['type']  == "threshold":
-                required_fields = ['author', 'description', 'name', 'rule_id', 'risk_score', 'severity', 'type', 'query', 'threshold']
-            else:
-                # If an unsupported rule type is found, break the validation loop
-                print("Unsupported rule type found in: " + file)
-                break
-            
-            # Iterate over each gathered field and check if it's in the list of required fields
-            # If so, then convert the format from TOML to JSON depending on the data type of the field
-            for field in alert['rule']:
-                if field in required_fields:
+            if file.endswith(".toml"):
+        
+                # Programmatically create the full file path for the TOML files
+                # by joining the directory and filename together 
+                full_path = os.path.join(root, file)
+                with open(full_path, "rb") as loadedToml:
+                    alert = tomllib.load(loadedToml)
 
-                    # If the field's data type is a list, then convert the list into a string, replace
-                    # single quotes with double quotes and append it to the JSON formatted data
-                    # Appended data should look like: "field_name": ["item1", "item2"],\n
-                    if type(alert['rule'][field]) == list:
-                        data += "  " + "\"" + field + "\": " + str(alert['rule'][field]).replace("'","\"") + "," + "\n"
+                # Create an array containing the required fields for an alert based on the alert type
+                # Alert types = query, eql (evert correlation), threshold
+                if alert['rule']['type'] == "query":
+                    required_fields = ['author', 'description', 'name', 'rule_id', 'risk_score', 'severity', 'type', 'query']
+                elif alert['rule']['type']  == "eql":
+                    required_fields = ['author', 'description', 'name', 'rule_id', 'risk_score', 'severity', 'type', 'query', 'language']
+                elif alert['rule']['type']  == "threshold":
+                    required_fields = ['author', 'description', 'name', 'rule_id', 'risk_score', 'severity', 'type', 'query', 'threshold']
+                else:
+                    # If an unsupported rule type is found, break the validation loop
+                    print("Unsupported rule type found in: " + file)
+                    break
+                
+                # Iterate over each gathered field and check if it's in the list of required fields
+                # If so, then convert the format from TOML to JSON depending on the data type of the field
+                for field in alert['rule']:
+                    if field in required_fields:
 
-                    # If the field's data type is a string, we convert the field depending on what it's storing
-                    # Appended data should look like: "field_name": "field_value",\n
-                    elif type(alert['rule'][field]) == str:
+                        # If the field's data type is a list, then convert the list into a string, replace
+                        # single quotes with double quotes and append it to the JSON formatted data
+                        # Appended data should look like: "field_name": ["item1", "item2"],\n
+                        if type(alert['rule'][field]) == list:
+                            data += "  " + "\"" + field + "\": " + str(alert['rule'][field]).replace("'","\"") + "," + "\n"
 
-                        # For the description field, replace newlines with spaces, escape double quotes using \"
-                        # and escape backslashes using \\
-                        # Append this to the JSON formatted data
-                        if field == 'description':
-                            data += "  " + "\"" + field + "\": \"" + str(alert['rule'][field]).replace("\n"," ").replace("\"","\\\"").replace("\\","\\\\") + "\"," + "\n"
+                        # If the field's data type is a string, we convert the field depending on what it's storing
+                        # Appended data should look like: "field_name": "field_value",\n
+                        elif type(alert['rule'][field]) == str:
+
+                            # For the description field, replace newlines with spaces, escape double quotes using \"
+                            # and escape backslashes using \\
+                            # Append this to the JSON formatted data
+                            if field == 'description':
+                                data += "  " + "\"" + field + "\": \"" + str(alert['rule'][field]).replace("\n"," ").replace("\"","\\\"").replace("\\","\\\\") + "\"," + "\n"
+                            
+                            # For the query field, escape double quotes using \" and escape backslashes using \\
+                            # Also replace newlines with spaces
+                            # Append this to the JSON formatted data
+                            elif field == 'query':
+                                data += "  " + "\"" + field + "\": \"" + str(alert['rule'][field]).replace("\\","\\\\").replace("\"","\\\"").replace("\n"," ") + "\"," + "\n"
+                            
+                            # For all other string fields, replace newlines with spaces, escape double quotes using \"
+                            # and escape backslashes using \\
+                            # Append this to the JSON formatted data
+                            else:
+                                data += "  " + "\"" + field + "\": \"" + str(alert['rule'][field]).replace("\n"," ").replace("\"","\\\"") + "\"," + "\n"
                         
-                        # For the query field, escape double quotes using \" and escape backslashes using \\
-                        # Also replace newlines with spaces
+                        # If the field's data type is a integer, then convert the int into a string and append this to the JSON formatted data
+                        # Appended data should look like: "field_name": 123,\n
+                        elif type(alert['rule'][field]) == int:
+                            data += "  " + "\"" + field + "\": " + str(alert['rule'][field]) + "," + "\n"
+
+                        # If the field's data type is a dictionary, then convert the dict into a string and replace
+                        # single quotes with double quotes
                         # Append this to the JSON formatted data
-                        elif field == 'query':
-                            data += "  " + "\"" + field + "\": \"" + str(alert['rule'][field]).replace("\\","\\\\").replace("\"","\\\"").replace("\n"," ") + "\"," + "\n"
-                        
-                        # For all other string fields, replace newlines with spaces, escape double quotes using \"
-                        # and escape backslashes using \\
-                        # Append this to the JSON formatted data
-                        else:
-                            data += "  " + "\"" + field + "\": \"" + str(alert['rule'][field]).replace("\n"," ").replace("\"","\\\"") + "\"," + "\n"
-                    
-                    # If the field's data type is a integer, then convert the int into a string and append this to the JSON formatted data
-                    # Appended data should look like: "field_name": 123,\n
-                    elif type(alert['rule'][field]) == int:
-                        data += "  " + "\"" + field + "\": " + str(alert['rule'][field]) + "," + "\n"
+                        # Appended data should look like: "field_name": {"key": "value"},\n`
+                        elif type(alert['rule'][field]) == dict:
+                            data += "  " + "\"" + field + "\": " + str(alert['rule'][field]).replace("'","\"") + "," + "\n"
+                
+                # Append the field 'enabled' to the end of the JSON data and assign it to 'true'
+                # (auto enables the newly created rule). Also append the closing } to the end of the file
+                data += "  \"enabled\": true\n}"
 
-                    # If the field's data type is a dictionary, then convert the dict into a string and replace
-                    # single quotes with double quotes
-                    # Append this to the JSON formatted data
-                    # Appended data should look like: "field_name": {"key": "value"},\n`
-                    elif type(alert['rule'][field]) == dict:
-                        data += "  " + "\"" + field + "\": " + str(alert['rule'][field]).replace("'","\"") + "," + "\n"
-            
-            # Append the field 'enabled' to the end of the JSON data and assign it to 'true'
-            # (auto enables the newly created rule). Also append the closing } to the end of the file
-            data += "  \"enabled\": true\n}"
+            # Extract the rule IDs from each alert in the list and append that value to the URL 
+            # before submitting the PUT request to Elastic
+            ruleID = alert['rule']['rule_id']
+            updateUrl = url + "?rule_id=" + ruleID
 
-        # Extract the rule IDs from each alert in the list and append that value to the URL 
-        # before submitting the PUT request to Elastic
-        ruleID = alert['rule']['rule_id']
-        updateUrl = url + "?rule_id=" + ruleID
+            # Send the PUT request to Elastic
+            elastic_data = requests.put(updateUrl, headers=headers, data=data).json()
+            print(elastic_data)
 
-        # Send the PUT request to Elastic
-        elastic_data = requests.put(updateUrl, headers=headers, data=data).json()
-        print(elastic_data)
-
-        # If a new TOML file is being sent to Elastic, the Rule ID doesn't exist.
-        # Check for a 404 error code in the JSON data and search if a status code is included
-        # If a 404 status code is found, change to a POST request rather than a PUT
-        for key in elastic_data:
-            if key == "status_code":
-                if 404 == elastic_data["status_code"]:
-                    elastic_data = requests.post(url, headers=headers, data=data).json()
-                    print(elastic_data)
+            # If a new TOML file is being sent to Elastic, the Rule ID doesn't exist.
+            # Check for a 404 error code in the JSON data and search if a status code is included
+            # If a 404 status code is found, change to a POST request rather than a PUT
+            for key in elastic_data:
+                if key == "status_code":
+                    if 404 == elastic_data["status_code"]:
+                        elastic_data = requests.post(url, headers=headers, data=data).json()
+                        print(elastic_data)
