@@ -7,6 +7,7 @@ import tomllib
 
 API_KEY = os.getenv('ELASTIC_API')
 CHANGED_FILES = str(os.getenv('CHANGED_FILES'))
+print(CHANGED_FILES)
 
 # Example request
 # curl \
