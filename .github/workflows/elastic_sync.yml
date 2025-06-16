@@ -40,6 +40,8 @@ jobs:
           ELASTIC_KEY: ${{ secrets.ELASTIC_API }}
           # This variable is defined in the Marketplace page for Changed Files
           CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        working-directory: ./DetEng/elastic_api
         run: |
           pip install requests
-          python DetEng/elastic_api/update_alert.py
+          python update_alert.py
+          echo "Job status - ${{ job.status }}."

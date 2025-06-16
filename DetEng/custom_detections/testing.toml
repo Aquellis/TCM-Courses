@@ -5,7 +5,7 @@ description = ""
 from = "now-6m" #From changes the default lookback time, 6m is default
 name = "Example Alert"
 risk_score = 1
-severity = ""
+severity = "low"
 tags = [
     "Domain: Endpoint"
 ]
