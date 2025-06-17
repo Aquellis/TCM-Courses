@@ -30,6 +30,17 @@ try:
                 # Create an array containing the name(s) of items in required_fields[] not found in present_fields[]
                 missing_fields = []
 
+                # We must consider the creation date under Metadata as a required field
+                # (Required by metrics to perform date calculations)
+                try:
+                    # Do nothing if the field exists
+                    if alert['metadata']['creation_date']:
+                        pass
+                except:
+                    # Print an error and fail if the field does not exist
+                    print("The metadata does not contain a creation date in " + file)
+                    failure = 1
+
                 # Create an array containing the required fields for an alert based on the alert type
                 # Alert types = query, eql (evert correlation), threshold
                 if alert['rule']['type'] == "query":
