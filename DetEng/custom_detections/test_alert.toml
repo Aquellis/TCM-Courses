@@ -1,3 +1,9 @@
+[metadata]
+creation_date = "2025/06/10"
+integration = ["endpoint"]
+maturity = "production"
+updated_date = "2025/06/18"
+
 [rule]
 author = ["KC"]
 rule_id = "10000000-4000-400a-b200-4a285d000250"
