@@ -1,0 +1,34 @@
+name: Metrics
+run-name: Detection Metrics
+
+# The workflow must be manually triggered
+on:
+  workflow_dispatch:
+
+jobs:
+  runMetrics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+            # Use the GitHub access token created for this Action
+            token: ${{ secrets.ACTION_KEY }}
+      #
+      # In case of error, force the python version used to run 
+      # validation checks:
+      # - uses: actions/setup-python@v4
+      #   with:
+      #     python-version: '3.X.X'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install python-dateutil
+      # Run the TOML to markdown conversion script
+      - run: python DetEng/metrics/toml_to_md.py
+      - run: |
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git add .
+            git commit -m "Updating Metrics"
+            git push -f
+      - run: echo "Job status - ${{ job.status }}."
