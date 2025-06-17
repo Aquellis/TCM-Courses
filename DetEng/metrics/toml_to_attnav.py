@@ -48,8 +48,7 @@ for root, dirs, files in os.walk('DetEng/custom_detections'):
                         
 # Create variables for the beginning and end of the MITRE ATT&CK Navigator JSON file
 # These portions of the file shouldn't change, so we can manually add them in
-jsonBegin = """
-{
+jsonBegin = """{
 	"name": "Custom Detections",
 	"versions": {
 		"attack": "17",
