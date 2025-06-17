@@ -74,10 +74,10 @@ outputPath = "DetEng/metrics/detections.md"
 # Open our new output file and write it's contents
 outFile = open(outputPath, "w")
 
-outFile.write("#Detections Report\n")
+outFile.write("# Detections Report\n")
 
  # Start writing the headers of the markdown file
-outFile.write("##Current Month\n")
+outFile.write("## Current Month\n")
 outFile.write("### Alerts created:\n")
 outFile.write("| Alert | Date | Author | Risk Score | Severity |\n") # Defines columns
 outFile.write("| --- | --- | --- | --- | --- |\n") # Defines column sizes
@@ -95,7 +95,7 @@ for line in currentList.values():
 
     outFile.write("|" + mdName + "|" + mdDate + "|" + mdAuthor + "|" + mdRiskScore + "|" + mdSeverity + "|\n")
 
-outFile.write("##Last Month\n")
+outFile.write("## Last Month\n")
 outFile.write("### Alerts created:\n")
 outFile.write("| Alert | Date | Author | Risk Score | Severity |\n") # Defines columns
 outFile.write("| --- | --- | --- | --- | --- |\n") # Defines column sizes
@@ -110,7 +110,7 @@ for line in oneMonthList.values():
 
     outFile.write("|" + mdName + "|" + mdDate + "|" + mdAuthor + "|" + mdRiskScore + "|" + mdSeverity + "|\n")
 
-outFile.write("##Two Months Ago\n")
+outFile.write("## Two Months Ago\n")
 outFile.write("### Alerts created:\n")
 outFile.write("| Alert | Date | Author | Risk Score | Severity |\n") # Defines columns
 outFile.write("| --- | --- | --- | --- | --- |\n") # Defines column sizes
@@ -125,7 +125,7 @@ for line in twoMonthList.values():
 
     outFile.write("|" + mdName + "|" + mdDate + "|" + mdAuthor + "|" + mdRiskScore + "|" + mdSeverity + "|\n")
 
-outFile.write("##Oldest Alerts\n")
+outFile.write("## Oldest Alerts\n")
 outFile.write("### Alerts created:\n")
 outFile.write("| Alert | Date | Author | Risk Score | Severity |\n") # Defines columns
 outFile.write("| --- | --- | --- | --- | --- |\n") # Defines column sizes
