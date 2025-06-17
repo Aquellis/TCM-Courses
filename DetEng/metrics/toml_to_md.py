@@ -69,7 +69,7 @@ for root, dirs, files in os.walk('DetEng/custom_detections'):
                 list[file] = obj           
 
 # Create an output CSV file
-outputPath = "DetEng/metrics/detections.md"
+outputPath = "DetEng/metrics/converted_files/detections.md"
 
 # Open our new output file and write it's contents
 outFile = open(outputPath, "w")

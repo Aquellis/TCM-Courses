@@ -1,0 +1,12 @@
+Name,Date,Author,Risk_Score,Severity,Tactic,Technique,Subtechnique
+Bat files observed in HTTP Traffic on Unusual Port,2025/06/10,['KC'],21,low,Execution,T1059 - Command and Scripting Interpreter,T1059.003 - Windows Command Shell
+Data Archive for Potential Exfiltration,2025/06/10,['KC'],50,medium,Collection,T1074 - Data Staged,T1074.001 - Local Data Staging
+Data Exfiltration Observed via FTP,2025/06/10,['KC'],75,medium,Exfiltration,T1020 - Automated Exfiltration,none - none
+Alert Template,2025/06/10,['KC'],45,low,Collection,T1114 - Email Collection,T1114.001 - Local Email Collection
+Excessive Web Traffic,2025/06/10,['KC'],12,medium,Discovery,T1046 - Network Service Discovery,none - none
+Suspicious File Written to Temp Directory,2025/06/10,['KC'],10,medium,Discovery,T1082 - System Information Discovery,none - none
+Potential MSF PowerShell Payload Observed,2025/06/10,['KC'],100,high,Execution,T1059 - Command and Scripting Interpreter,T1059.001 - PowerShell
+PowerShell execution via a BAT file,2025/06/10,['KC'],1,low,Execution,T1059 - Command and Scripting Interpreter,T1059.001 - PowerShell
+PowerShell Invoke-WebRequest Downloading a BAT File,2025/06/10,['KC'],10,low,Execution,T1059 - Command and Scripting Interpreter,T1059.001 - PowerShell
+Suspicious PowerShell Added to Windows Registry,2025/06/10,['KC'],30,low,Persistence,T1547 - Boot or Logon Autostart Execution,T1547.001 - Registry Run Keys / Startup Folder
+Web Scanner Activity - Nmap & Nikto,2025/06/10,['KC'],35,low,Discovery,T1046 - Network Service Discovery,none - none
