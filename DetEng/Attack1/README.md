@@ -31,7 +31,7 @@ nikto -h [Windows victim VM IP]:8000
 
 Install zaproxy if needed: **sudo apt install zaproxy** <br>
 Start a new automated scan against **[Windows victim VM IP]:8000** <br>
-![zapScan](../Images/AttScen1_zap)
+![zapScan](../../Images/AttScen1_zap)
 
 ## Rule & Alert Creation
 
@@ -42,14 +42,14 @@ user_agent.original: *Nmap* or user_agent.original:"[user agent of Kali Attacker
 ```
 
 Create the new rule for this activity: <br>
-![attScen1_rule](../Images/AttScen1_rule)
+![attScen1_rule](../../Images/AttScen1_rule)
 
 * Suppress the rule by **destination.ip** and per time period of **5 minutes**
 * Schedule the rule to run every **5 minutes** with a lookback time of **5 minutes** (ensures all traffic is checked even though the rule doesn't run constantly)
 
 ### Create a Threshold Alert
 In case that large amounts of network traffic do not come from either Nmap, Nikto or ZAP scans, create a new threshold alert: <br>
-![attScen1_threshold](../Images/AttScen1_threshold)
+![attScen1_threshold](../../Images/AttScen1_threshold)
 * The custom query to use is: **event.dataset: "zeek.http"**
 * Group traffic by **source.ip** and **destination.ip**
 * Set the threshold to **1000**
