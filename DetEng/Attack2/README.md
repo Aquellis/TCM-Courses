@@ -39,7 +39,7 @@ deploy
 2. Execute the malicous .BAT file on the Windows victim VM (created in step 3 of Attack Staging)
 
 3. A Windows shell should have popped in the Kali attacker VM terminal window <br>
-![kaliRevShell](../../Images/AttScen2_shell.PNG)
+![kaliRevShell](../../Images/DetEngAttScen2_shell.PNG)
 
 ## Rule & Alert Creation
 
@@ -67,11 +67,11 @@ Open the Elastic logs, use the **event.dataset: "windows.sysmon_operational"** d
 process.command_line : "\"cmd.exe\"" and message: "*powershell -w hidden -nop -c $a'*"
 ```
 The **message** field must be used here since the **process.parent.command_line** field is too long and is being ignored by Elastic: <br>
-![AttScen2_rule3](../../Images/AttScen2_rule3.PNG)
+![AttScen2_rule3](../../Images/DetEngAttScen2_rule3.PNG)
 
 Create a new rule based on this custom query:
 * Suppress the rule by **host.hostname** and per time period of **5 minutes**
 * Schedule the rule to run every **5 minutes** with a lookback time of **5 minutes** 
 
-## Confirm the Alert Works
+## Confirm the Alerts Work
 Re-launch the attacks as given in the **Attack Walkthrough** section
