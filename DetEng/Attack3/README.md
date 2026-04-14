@@ -5,6 +5,7 @@ This attack:
 * Collects information from the victim (logged keys, system info & browser history)
 * Zips the collected data together before sending to the Kali attacker VM via FTP
 <br>
+
 ![AttScen3diagram](../../Images/DetEngAttScen3.png)
 
 ## Attack Staging
