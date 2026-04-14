@@ -5,7 +5,7 @@ This attack:
 * Collects information from the victim (logged keys, system info & browser history)
 * Zips the collected data together before sending to the Kali attacker VM via FTP
 <br>
-![AttScen3diagram](../../Images/DetEngAttScen3_diagram.png)
+![AttScen3diagram](../../Images/DetEngAttScen3_Diagram.png)
 
 ## Attack Staging
 1. On the Windows victim VM, ensure the Edge browser history can be viewed: 
