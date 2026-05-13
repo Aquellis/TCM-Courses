@@ -28,11 +28,15 @@ This answer can be found in the Nmap enumeration.
 
 **Answer: 3**
 
+---
+
 **2. What is running on the higher port?**
 
 This answer can be found in the Nmap enumeration. 
 
 **Answer: ssh**
+
+---
 
 **3. What's the CVE you're using against the application?**
 
@@ -44,11 +48,15 @@ We see there seems to be Simple CMS hosted here. Looking further we see the vers
 
 **Answer: CVE-2019-9053**
 
+---
+
 **4. To what kind of vulnerability is the application vulnerable?**
 
 Examining the CVE details, we can see that CMA Made Simple 2.2.8 is vulnerable to **SQL Injection (sqli)**.
 
 **Answer: sqli**
+
+---
 
 **5. What's the password?**
 
@@ -58,17 +66,23 @@ To find this answer we must crack the password for the user **mitch**. We'll try
 
 **Answer: s\*\*\*\*\***
 
+---
+
 **6. Where can you login with the details obtained?**
 
 From our hydra results, we see that the credentials can be used for an **ssh login** on port 2222.
 
 **Answer: ssh**
 
+---
+
 **7. What's the user flag?**
 
 To obtain the user flag, login as Mitch and find the flag inside **user.txt**.
 
 **Answer: G\*\*\* \*\*\*, \*\*\*\* \*\*!**
+
+---
 
 **8. Is there any other user in the home directory? What's its name?**
 
@@ -77,6 +91,8 @@ Starting from Mitch's home directory, move up one level and see what other user 
 ![SimpleCTF_user](../Images/LPE_SimpleCTF_user.PNG)
 
 **Answer: sunbath**
+
+---
 
 **9. What can you leverage to spawn a privileged shell?**
 
@@ -89,6 +105,10 @@ Knowing that Mitch can use **vim** as sudo, we go to [GTFOBins](https://gtfobins
 Spawn a root shell using vim: **sudo vim -c '!sh'**. Confirm root access was achieved using **whoami** and/or **id**.
 
 ![SimpleCTF_root](../Images/LPE_SimpleCTF_root.PNG)
+
+**Answer: vim**
+
+---
 
 **10. What's the root flag?**
 
