@@ -5,7 +5,7 @@ run-name: Validating TOML files
 # Also triggers on every push to main including a TOML file
 on:
   push:
-    branches: [ main ]
+    # branches: [ main ]
     paths:
       - 'DetEng/custom_detections/**'
       - '**.toml'
