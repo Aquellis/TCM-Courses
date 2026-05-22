@@ -8,8 +8,8 @@ on:
     branches: 
       - main
     paths:
-      - DetEng/custom_detections/**
-      - **.toml
+      - 'DetEng/custom_detections/**'
+      - '**/*.toml'
   # workflow_dispatch:
 
 jobs:
