@@ -21,4 +21,4 @@ The course curriculum includes learning about the following privilege escalation
 The course's lab environment is on [TryHackMe](https://tryhackme.com/room/linuxprivescarena).
 
 
-Writeups for the course challenges and capstone exercises can be found here.
+Writeups for the course challenges and capstone exercises can be found above.
