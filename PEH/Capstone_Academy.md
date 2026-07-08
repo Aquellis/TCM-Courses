@@ -141,7 +141,7 @@ Looking through the script output we have two useful findings:
 
 2. A cron job
 
-![AcademyCron](../PEH_Academy_cron.PNG)
+![AcademyCron](../Images/PEH_Academy_cron.PNG)
 
 Digging into the credentials, we can print the contents of the file **cat /var/www/html/academy/includes/config.php** which gives us the username associated with the password already discovered.
 
